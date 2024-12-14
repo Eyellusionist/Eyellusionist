@@ -6,18 +6,18 @@
     <title>Dynamic Clock</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: "Courier Twelve Mt Std", Courier, monospace;
+            background-color: #1a1a1a; /* Very dark grey background */
+            color: white; /* White text */
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f4f4f4;
             margin: 0;
         }
         .clock {
             font-size: 1.5rem;
             font-weight: bold;
-            color: #333;
         }
     </style>
 </head>
@@ -34,21 +34,29 @@
 
             // Calculate the total number of days since the start date
             const daysElapsed = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-            
-            // Calculate the cycle's current time
+
+            // Calculate the cycle's current time (13 hours in milliseconds)
             const cycleDuration = 13 * 60 * 60 * 1000; // 13 hours in milliseconds
             const totalCycleTime = 13 + (daysElapsed * 13); // Total hours (increased by 13 each day)
 
-            // Calculate the current cycle time
+            // Calculate the current cycle time (in hours)
             const currentCycleTime = (timeDifference % cycleDuration) / (1000 * 60 * 60); // Convert ms to hours
+            const currentHour = Math.floor(currentCycleTime); // Current hour in the cycle (0 to 12)
 
-            // Calculate the hours and minutes in the current cycle
-            const hours = Math.floor(currentCycleTime);
-            const minutes = Math.floor((currentCycleTime - hours) * 60);
+            // Format the time as 12-hour format (AM/PM)
+            let hoursIn12 = currentHour % 12;
+            if (hoursIn12 === 0) hoursIn12 = 12; // 12 AM/PM instead of 0 AM/PM
+            const ampm = currentHour >= 12 ? 'PM' : 'AM';
+
+            // Calculate minutes
+            const minutes = Math.floor((currentCycleTime - currentHour) * 60);
+
+            // Calculate the cycle hour (1st, 2nd, etc., up to 13th Hour)
+            const cycleHour = (currentHour + 1) % 13 || 13; // Avoid 0th hour, ensure it goes from 1 to 13
 
             // Update the clock text
             const clockElement = document.getElementById("clock");
-            clockElement.innerText = `Time aboard the Eye Engine: ${totalCycleTime.toFixed(0)} Hours, ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+            clockElement.innerText = `Time aboard the Eye Engine: ${hoursIn12.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')} ${ampm} (${cycleHour}th Hour)`;
         }
 
         // Update the clock every second
