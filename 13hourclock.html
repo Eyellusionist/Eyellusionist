@@ -48,15 +48,22 @@
             if (hoursIn12 === 0) hoursIn12 = 12; // 12 AM/PM instead of 0 AM/PM
             const ampm = currentHour >= 12 ? 'PM' : 'AM';
 
-            // Calculate minutes
+            // Calculate minutes and seconds
             const minutes = Math.floor((currentCycleTime - currentHour) * 60);
+            const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000); // Calculate seconds
 
             // Calculate the cycle hour (1st, 2nd, etc., up to 13th Hour)
-            const cycleHour = (currentHour + 1) % 13 || 13; // Avoid 0th hour, ensure it goes from 1 to 13
+            let cycleHour = (currentHour + 1) % 13 || 13; // Avoid 0th hour, ensure it goes from 1 to 13
+
+            // Determine the appropriate suffix for the cycle hour (1st, 2nd, 3rd, 4th, etc.)
+            let suffix = "th";
+            if (cycleHour === 1) suffix = "st";
+            else if (cycleHour === 2) suffix = "nd";
+            else if (cycleHour === 3) suffix = "rd";
 
             // Update the clock text
             const clockElement = document.getElementById("clock");
-            clockElement.innerText = `Time aboard the Eye Engine: ${hoursIn12.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')} ${ampm} (${cycleHour}th Hour)`;
+            clockElement.innerText = `Time aboard the Eye Engine: ${hoursIn12.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')} ${ampm} (${cycleHour}${suffix} Hour)`;
         }
 
         // Update the clock every second
