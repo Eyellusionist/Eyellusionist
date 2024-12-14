@@ -15,7 +15,7 @@
             margin: 0;
         }
         .clock {
-            font-size: 2rem;
+            font-size: 1.5rem;
             font-weight: bold;
             color: #333;
         }
@@ -48,7 +48,7 @@
 
             // Update the clock text
             const clockElement = document.getElementById("clock");
-            clockElement.innerText = `Cycle Time: ${totalCycleTime.toFixed(0)} Hours, ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+            clockElement.innerText = `Time aboard the Eye Engine: ${totalCycleTime.toFixed(0)} Hours, ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
         }
 
         // Update the clock every second
