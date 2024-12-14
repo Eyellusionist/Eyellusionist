@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Clock</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+        .clock {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="clock" id="clock"></div>
+
+    <script>
+        // Set the specific date: 13th December 2024
+        const startDate = new Date("2024-12-13T00:00:00");
+
+        function updateClock() {
+            const now = new Date();
+            const timeDifference = now - startDate;
+
+            // Calculate the total number of days since the start date
+            const daysElapsed = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+            
+            // Calculate the cycle's current time
+            const cycleDuration = 13 * 60 * 60 * 1000; // 13 hours in milliseconds
+            const totalCycleTime = 13 + (daysElapsed * 13); // Total hours (increased by 13 each day)
+
+            // Calculate the current cycle time
+            const currentCycleTime = (timeDifference % cycleDuration) / (1000 * 60 * 60); // Convert ms to hours
+
+            // Calculate the hours and minutes in the current cycle
+            const hours = Math.floor(currentCycleTime);
+            const minutes = Math.floor((currentCycleTime - hours) * 60);
+
+            // Update the clock text
+            const clockElement = document.getElementById("clock");
+            clockElement.innerText = `Cycle Time: ${totalCycleTime.toFixed(0)} Hours, ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+        }
+
+        // Update the clock every second
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
+</body>
+</html>
