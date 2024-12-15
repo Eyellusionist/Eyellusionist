@@ -32,37 +32,31 @@
             const now = new Date();
             const timeDifference = now - startDate;
 
-            // Calculate the total number of days since the start date
-            const daysElapsed = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+            // Calculate total hours elapsed since the start date
+            const totalHoursElapsed = timeDifference / (1000 * 60 * 60);
 
-            // Calculate the cycle's current time (13 hours in milliseconds)
-            const cycleDuration = 13 * 60 * 60 * 1000; // 13 hours in milliseconds
-            const totalCycleTime = 13 + (daysElapsed * 13); // Total hours (increased by 13 each day)
+            // Calculate the hour within the 13-hour cycle
+            const cycleHour = Math.floor(totalHoursElapsed % 13) + 1; // Ensures 1 to 13
 
-            // Calculate the current cycle time (in hours)
-            const currentCycleTime = (timeDifference % cycleDuration) / (1000 * 60 * 60); // Convert ms to hours
-            const currentHour = Math.floor(currentCycleTime); // Current hour in the cycle (0 to 12)
-
-            // Format the time as 12-hour format (AM/PM)
-            let hoursIn12 = currentHour % 12;
-            if (hoursIn12 === 0) hoursIn12 = 12; // 12 AM/PM instead of 0 AM/PM
-            const ampm = currentHour >= 12 ? 'PM' : 'AM';
-
-            // Calculate minutes
-            const minutes = Math.floor((currentCycleTime - currentHour) * 60);
-
-            // Calculate the cycle hour (1st, 2nd, etc., up to 13th Hour)
-            let cycleHour = (currentHour + 1) % 13 || 13; // Avoid 0th hour, ensure it goes from 1 to 13
-
-            // Determine the appropriate suffix for the cycle hour (1st, 2nd, 3rd, 4th, etc.)
+            // Determine the appropriate suffix for the cycle hour (1st, 2nd, 3rd, etc.)
             let suffix = "th";
             if (cycleHour === 1) suffix = "st";
             else if (cycleHour === 2) suffix = "nd";
             else if (cycleHour === 3) suffix = "rd";
 
+            // Get the current time for AM/PM format
+            const currentHour = now.getHours();
+            const currentMinute = now.getMinutes();
+            const currentSecond = now.getSeconds();
+
+            // Format the time as 12-hour format (AM/PM)
+            let hoursIn12 = currentHour % 12;
+            if (hoursIn12 === 0) hoursIn12 = 12; // Adjust midnight/noon to 12
+            const ampm = currentHour >= 12 ? 'PM' : 'AM';
+
             // Update the clock text
             const clockElement = document.getElementById("clock");
-            clockElement.innerText = `Time aboard the Eye Engine: ${hoursIn12.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')} ${ampm} (${cycleHour}${suffix} Hour)`;
+            clockElement.innerText = `Time aboard the Eye Engine: ${hoursIn12.toString().padStart(2, '0')}:${currentMinute.toString().padStart(2, '0')}:${currentSecond.toString().padStart(2, '0')} ${ampm} (${cycleHour}${suffix} Hour)`;
         }
 
         // Update the clock every second
