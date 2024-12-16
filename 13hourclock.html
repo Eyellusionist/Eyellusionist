@@ -1,71 +1,109 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Clock</title>
+    <title>Clock Example</title>
     <style>
-        body {
-            font-family: "Courier Twelve Mt Std", Courier, monospace;
-            background-color: #1a1a1a; /* Very dark grey background */
-            color: white; /* White text */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
+        /* Define the custom Courier 12 font using @font-face */
+        @font-face {
+            font-family: "Courier12";
+            src: url("Courier12-Regular.ttf") format("truetype"); /* Adjust the path if necessary */
+            font-weight: normal;
+            font-style: normal;
         }
-        .clock {
-            font-size: 1.5rem;
-            font-weight: bold;
+
+        body {
+            font-family: 'Courier12', monospace; /* Apply Courier12 font */
+            margin: 0;
+            padding: 0;
+            background-color: #121212;
+        }
+
+        /* Styling for the clock container */
+        .clock-display {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            font-family: 'Courier12', monospace;  /* Apply Courier12 font */
+            text-align: right;
+            color: white;
+            text-shadow: 1px 1px 2px black;
+        }
+
+        /* Styling for the label */
+        .time-container {
+            font-size: 18px;  /* Slightly smaller font size for the label */
+            color: #AAAAAA;
+            margin-bottom: 5px;
+        }
+
+        /* Styling for the actual time */
+        #time {
+            font-size: 24px;  /* Font size for the time */
         }
     </style>
 </head>
 <body>
-    <div class="clock" id="clock"></div>
+    <div class="clock-display" id="clock">
+        <div class="time-container">Time aboard the Eye Engine:</div>
+        <div id="time"></div>
+    </div>
 
     <script>
-        // Set the specific date: 13th December 2024
-        const startDate = new Date("2024-12-13T00:00:00");
+        // Define the starting date as a constant
+        const START_DATE = new Date(2024, 11, 13); // December 13, 2024
 
-        function updateClock() {
+        // Function to calculate and return the elapsed time string
+        function getElapsedTime() {
             const now = new Date();
-            const timeDifference = now - startDate;
+            const elapsed = now - START_DATE;
 
-            // Calculate the total number of days since the start date
-            const daysElapsed = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+            // Total elapsed seconds
+            const total_seconds = Math.floor(elapsed / 1000);
 
-            // Calculate the cycle's current time (13 hours in milliseconds)
-            const cycleDuration = 13 * 60 * 60 * 1000; // 13 hours in milliseconds
-            const totalCycleTime = 13 + (daysElapsed * 13); // Total hours (increased by 13 each day)
+            // Total hours passed
+            const total_hours = Math.floor(total_seconds / 3600);
 
-            // Calculate the current cycle time (in hours)
-            const currentCycleTime = (timeDifference % cycleDuration) / (1000 * 60 * 60); // Convert ms to hours
-            const currentHour = Math.floor(currentCycleTime); // Current hour in the cycle (0 to 12)
+            // Calculate the 13-hour clock (13:00 AM = 1st hour, 1:00 AM = 2nd hour)
+            let hours_13 = (total_hours % 13);
+            if (hours_13 === 0) {
+                hours_13 = 13;  // Adjust so 0 becomes 13
+            }
 
-            // Format the time as 12-hour format (AM/PM)
-            let hoursIn12 = currentHour % 12;
-            if (hoursIn12 === 0) hoursIn12 = 12; // 12 AM/PM instead of 0 AM/PM
-            const ampm = currentHour >= 12 ? 'PM' : 'AM';
+            // Map 13-hour clock to the 26-hour clock starting at "1st hour"
+            const hours_26 = ((total_hours + 13) % 26) + 1; // Offset by 13 for alignment
 
-            // Calculate minutes and seconds
-            const minutes = Math.floor((currentCycleTime - currentHour) * 60);
-            const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000); // Calculate seconds
-            // Calculate the cycle hour (1st, 2nd, etc., up to 13th Hour)
-            let cycleHour = (currentHour + 1) % 13 || 13; // Avoid 0th hour, ensure it goes from 1 to 13
-            // Determine the appropriate suffix for the cycle hour (1st, 2nd, 3rd, 4th, etc.)
+            // Minutes and seconds
+            const minutes = Math.floor(total_seconds % 3600 / 60);
+            const seconds = total_seconds % 60;
+
+            // Correct AM/PM determination for the 13-hour clock
+            // Swap AM/PM
+            const period = hours_26 <= 13 ? "PM" : "AM";
+
+            // Determine the suffix for the 26-hour clock
             let suffix = "th";
-            if (cycleHour === 1) suffix = "st";
-            else if (cycleHour === 2) suffix = "nd";
-            else if (cycleHour === 3) suffix = "rd";
-            // Update the clock text
-            const clockElement = document.getElementById("clock");
-            clockElement.innerText = `Time aboard the Eye Engine: ${hoursIn12.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')} ${ampm} (${cycleHour}${suffix} Hour)`;
+            if (hours_26 % 10 === 1 && hours_26 !== 11) {
+                suffix = "st";
+            } else if (hours_26 % 10 === 2 && hours_26 !== 12) {
+                suffix = "nd";
+            } else if (hours_26 % 10 === 3 && hours_26 !== 13) {
+                suffix = "rd";
+            }
+
+            // Format the time string for the 13-hour clock with the 26-hour suffix
+            return `${hours_13.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')} ${period} (${hours_26}${suffix} Hour)`;
         }
 
-        // Update the clock every second
-        setInterval(updateClock, 1000);
+        // Function to update the clock display every second
+        function updateClock() {
+            const timeElement = document.getElementById('time');
+            timeElement.textContent = getElapsedTime();
+        }
+
+        // Update the clock immediately, then every second
         updateClock();
+        setInterval(updateClock, 1000); // Update every 1000 milliseconds (1 second)
     </script>
 </body>
 </html>
