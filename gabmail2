@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fictional Journalism Site</title>
+    <style>
+        body {
+            font-family: Courier, monospace;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        main {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
+        article {
+            background: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            height: auto;
+        }
+        article h2 {
+            margin-top: 0;
+        }
+        article img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 10px 0;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>The Courier Times</h1>
+        <p>Your source for fictional stories and breaking news!</p>
+    </header>
+    <main>
+        <article>
+            <h2>Breaking News: Mystery Unfolds</h2>
+            <img src="placeholder-image-1.jpg" alt="Breaking news image">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin non nulla vitae est tempor facilisis non sed odio. Pellentesque euismod viverra felis, at tempus erat elementum ut. Nulla facilisi. Cras hendrerit sapien nec orci condimentum, eu congue turpis blandit.</p>
+        </article>
+        <article>
+            <h2>Opinion: The Art of Fictional Journalism</h2>
+            <img src="placeholder-image-2.jpg" alt="Opinion piece image">
+            <p>Quisque at facilisis orci. Ut bibendum malesuada ligula, id lacinia augue posuere quis. Nam gravida, nunc ac vulputate volutpat, nunc risus cursus velit, euismod posuere purus arcu nec tortor. Suspendisse potenti. Aenean viverra auctor elit sit amet sodales. Nullam condimentum id nisi ac pretium.</p>
+        </article>
+        <article>
+            <h2>Feature Story: The Rise of Digital Media</h2>
+            <img src="placeholder-image-3.jpg" alt="Feature story image">
+            <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Integer tristique magna eget felis facilisis, in consequat elit aliquam. Nulla facilisi. Proin et orci et odio euismod rutrum. Phasellus tincidunt sollicitudin urna, at egestas velit posuere et. Curabitur vel cursus felis. Ut dignissim nisi libero, non feugiat ante lobortis vel.</p>
+        </article>
+    </main>
+    <footer>
+        <p>&copy; 2024 The Courier Times. All rights reserved.</p>
+    </footer>
+</body>
+</html>
