@@ -20,7 +20,7 @@
         }
         main {
             display: grid;
-            grid-template-columns: 1fr 1fr; /* Two equal-width columns */
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 20px;
             padding: 20px;
             max-width: 1200px;
@@ -33,7 +33,14 @@
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
-            height: auto; /* Allow height to adjust based on content */
+            height: auto;
+            transition: transform 0.3s ease;
+        }
+        article:nth-child(odd) {
+            transform: translateX(20px); /* Moves odd articles to the right */
+        }
+        article:nth-child(even) {
+            transform: translateX(-20px); /* Moves even articles to the left */
         }
         article h2 {
             margin-top: 0;
@@ -73,16 +80,6 @@
             <h2>Feature Story: The Rise of Digital Media</h2>
             <img src="placeholder-image-3.jpg" alt="Feature story image">
             <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Integer tristique magna eget felis facilisis, in consequat elit aliquam. Nulla facilisi. Proin et orci et odio euismod rutrum. Phasellus tincidunt sollicitudin urna, at egestas velit posuere et. Curabitur vel cursus felis. Ut dignissim nisi libero, non feugiat ante lobortis vel.</p>
-        </article>
-        <article>
-            <h2>Another Tale: Unraveling the Threads</h2>
-            <img src="placeholder-image-4.jpg" alt="Another tale image">
-            <p>This article contains a shorter text. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut bibendum malesuada ligula.</p>
-        </article>
-        <article>
-            <h2>Exploring the Unknown: A Journey Through Fiction</h2>
-            <img src="placeholder-image-5.jpg" alt="Exploring unknown image">
-            <p>Aliquam eu libero ac odio venenatis placerat. Integer a lectus sapien. Sed scelerisque, nulla id egestas fermentum, odio nunc euismod est, nec venenatis ligula erat sit amet nunc.</p>
         </article>
     </main>
     <footer>
