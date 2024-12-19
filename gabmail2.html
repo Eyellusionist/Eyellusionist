@@ -20,7 +20,8 @@
         }
         main {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Columns adjust to content width */
+            grid-auto-rows: minmax(200px, auto); /* Height auto-adjusts based on content */
             gap: 20px;
             padding: 20px;
             max-width: 1200px;
@@ -33,7 +34,6 @@
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
-            height: auto;
         }
         article h2 {
             margin-top: 0;
@@ -67,14 +67,22 @@
         <article>
             <h2>Opinion: The Art of Fictional Journalism</h2>
             <img src="placeholder-image-2.jpg" alt="Opinion piece image">
-            <p>Quisque at facilisis orci. Ut bibendum malesuada ligula, id lacinia augue posuere quis. Nam gravida, nunc ac vulputate volutpat, nunc risus cursus velit, euismod posuere purus arcu nec tortor. Suspendisse potenti. Aenean viverra auctor elit sit amet sodales. Nullam condimentum id nisi ac pretium.
-            
-            Eyellusionist was here.</p>
+            <p>Quisque at facilisis orci. Ut bibendum malesuada ligula, id lacinia augue posuere quis. Nam gravida, nunc ac vulputate volutpat, nunc risus cursus velit, euismod posuere purus arcu nec tortor. Suspendisse potenti. Aenean viverra auctor elit sit amet sodales.</p>
         </article>
         <article>
             <h2>Feature Story: The Rise of Digital Media</h2>
             <img src="placeholder-image-3.jpg" alt="Feature story image">
-            <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Integer tristique magna eget felis facilisis, in consequat elit aliquam. Nulla facilisi. Proin et orci et odio euismod rutrum. Phasellus tincidunt sollicitudin urna, at egestas velit posuere et. Curabitur vel cursus felis. Ut dignissim nisi libero, non feugiat ante lobortis vel.</p>
+            <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Integer tristique magna eget felis facilisis, in consequat elit aliquam. Nulla facilisi. Proin et orci et odio euismod rutrum. Phasellus tincidunt sollicitudin urna, at egestas velit posuere et.</p>
+        </article>
+        <article>
+            <h2>Another Tale: Unraveling the Threads</h2>
+            <img src="placeholder-image-4.jpg" alt="Another tale image">
+            <p>This article contains a shorter text. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut bibendum malesuada ligula.</p>
+        </article>
+        <article>
+            <h2>Exploring the Unknown: A Journey Through Fiction</h2>
+            <img src="placeholder-image-5.jpg" alt="Exploring unknown image">
+            <p>Aliquam eu libero ac odio venenatis placerat. Integer a lectus sapien. Sed scelerisque, nulla id egestas fermentum, odio nunc euismod est, nec venenatis ligula erat sit amet nunc.</p>
         </article>
     </main>
     <footer>
