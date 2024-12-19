@@ -20,8 +20,7 @@
         }
         main {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Columns adjust to content width */
-            grid-auto-rows: minmax(200px, auto); /* Height auto-adjusts based on content */
+            grid-template-columns: 1fr 1fr; /* Two equal-width columns */
             gap: 20px;
             padding: 20px;
             max-width: 1200px;
@@ -34,6 +33,7 @@
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
+            height: auto; /* Allow height to adjust based on content */
         }
         article h2 {
             margin-top: 0;
@@ -67,12 +67,12 @@
         <article>
             <h2>Opinion: The Art of Fictional Journalism</h2>
             <img src="placeholder-image-2.jpg" alt="Opinion piece image">
-            <p>Quisque at facilisis orci. Ut bibendum malesuada ligula, id lacinia augue posuere quis. Nam gravida, nunc ac vulputate volutpat, nunc risus cursus velit, euismod posuere purus arcu nec tortor. Suspendisse potenti. Aenean viverra auctor elit sit amet sodales.</p>
+            <p>Quisque at facilisis orci. Ut bibendum malesuada ligula, id lacinia augue posuere quis. Nam gravida, nunc ac vulputate volutpat, nunc risus cursus velit, euismod posuere purus arcu nec tortor. Suspendisse potenti. Aenean viverra auctor elit sit amet sodales. Nullam condimentum id nisi ac pretium.</p>
         </article>
         <article>
             <h2>Feature Story: The Rise of Digital Media</h2>
             <img src="placeholder-image-3.jpg" alt="Feature story image">
-            <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Integer tristique magna eget felis facilisis, in consequat elit aliquam. Nulla facilisi. Proin et orci et odio euismod rutrum. Phasellus tincidunt sollicitudin urna, at egestas velit posuere et.</p>
+            <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Integer tristique magna eget felis facilisis, in consequat elit aliquam. Nulla facilisi. Proin et orci et odio euismod rutrum. Phasellus tincidunt sollicitudin urna, at egestas velit posuere et. Curabitur vel cursus felis. Ut dignissim nisi libero, non feugiat ante lobortis vel.</p>
         </article>
         <article>
             <h2>Another Tale: Unraveling the Threads</h2>
