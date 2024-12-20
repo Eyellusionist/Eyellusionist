@@ -1,94 +1,79 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comic Book Style Flexbox Grid</title>
-    <style>
-        body {
-            font-family: "Courier New", Courier, monospace;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-        .flex-container {
-            display: flex;
-            flex-wrap: wrap; /* Enables wrapping to new rows */
-            gap: 20px; /* Adds spacing between items */
-            padding: 20px;
-            justify-content: space-between; /* Distributes items evenly */
-        }
-        .article {
-            flex: 1 1 calc(50% - 20px); /* Allows two items per row, adjusting for gap */
-            background: white;
-            border: 2px solid #000;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 5px 5px 0 #000;
-            display: flex;
-            flex-direction: column; /* Ensures content stacks vertically */
-        }
-        .article img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-        .content {
-            padding: 15px;
-            flex-grow: 1; /* Ensures content fills remaining space */
-        }
-        .content h2 {
-            font-size: 1.5em;
-            margin: 0 0 10px;
-            color: #333;
-        }
-        .content p {
-            font-size: 1em;
-            line-height: 1.6;
-            margin: 0;
-            color: #555;
-        }
-    </style>
-</head>
-<body>
-    <div class="flex-container">
-        <div class="article">
-            <img src="https://via.placeholder.com/400x200" alt="Placeholder Image">
-            <div class="content">
-                <h2>Article Title 1</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vehicula tortor sit amet...</p>
-            </div>
-        </div>
-        <div class="article">
-            <img src="https://via.placeholder.com/400x200" alt="Placeholder Image">
-            <div class="content">
-                <h2>Article Title 2</h2>
-                <p>Quisque tincidunt lorem nec nulla tincidunt, a dapibus felis sollicitudin. Sed euismod...</p>
-                <p>Additional text here that makes this article longer than the others.</p>
-            </div>
-        </div>
-        <div class="article">
-            <img src="https://via.placeholder.com/400x200" alt="Placeholder Image">
-            <div class="content">
-                <h2>Article Title 3</h2>
-                <p>Donec scelerisque, metus sed fermentum gravida, nulla eros consequat magna, at varius...</p>
-            </div>
-        </div>
-        <div class="article">
-            <img src="https://via.placeholder.com/400x200" alt="Placeholder Image">
-            <div class="content">
-                <h2>Article Title 4</h2>
-                <p>Morbi vel leo quis nisi aliquam interdum a at nulla. In id lectus ac sapien vehicula...</p>
-                <p>Another paragraph here to demonstrate height differences.</p>
-            </div>
-        </div>
-        <div class="article">
-            <img src="https://via.placeholder.com/400x200" alt="Placeholder Image">
-            <div class="content">
-                <h2>Article Title 5</h2>
-                <p>Short content example to show how dense packing works.</p>
-            </div>
-        </div>
+<section data-bs-version="5.1" class="features22" group="Features" plugins="Masonry" 
+         data-bg-video="{{bg.type === 'video' && bg.value.url}}" 
+         mbr-class="{'mbr-parallax-background': bg.parallax}">
+  <mbr-parameters>
+    <header>Section Layout</header>
+    <input type="checkbox" title="Full Width" name="fullWidth">
+    <input type="range" inline title="Top Padding" name="paddingTop" min="0" max="10" step="1" value="6">
+    <input type="range" inline title="Bottom Padding" name="paddingBottom" min="0" max="10" step="1" value="6">
+    
+    <header>Content Visibility</header>
+    <input type="checkbox" title="Main Title" name="showMainTitle" checked>
+    <input type="checkbox" title="Subtitle" name="showMainSubtitle" checked>
+    
+    <header>Card Settings</header>
+    <input type="checkbox" title="Card Title" name="showCardTitle" checked>
+    <input type="checkbox" title="Card Text" name="showCardText" checked>
+    <input type="checkbox" title="Card Icon" name="showCardIcon" checked>
+    <input type="checkbox" title="Card Buttons" name="showCardButtons">
+    <input type="color" title="Icon Color" name="iconColor" value="#d70081" selected condition="showCardIcon">
+    <input type="color" title="Icon Background" name="iconBackground" value="#ffd7ef" selected condition="showCardIcon">
+    <select title="Columns" name="columns">
+      <option value="12">1</option>
+      <option value="6" selected>2</option>
+      <option value="4">3</option>
+      <option value="3">4</option>
+    </select>
+    <input type="color" title="Card Background" name="cardBackground" value="#ffffff" selected>
+    
+    <header>Background Configuration</header>
+    <fieldset type="background" name="bg" parallax>
+      <input type="image" title="Background Image" value="../_images/background1.jpg" parallax>
+      <input type="color" title="Background Color" value="#edefeb" selected>
+      <input type="video" title="Background Video" value="https://vimeo.com/428046504">
+    </fieldset>
+    <input type="checkbox" title="Overlay" name="overlay" condition="bg.type !== 'color'" checked>
+    <input type="color" title="Overlay Color" name="overlayColor" value="#ffffff" condition="overlay && bg.type !== 'color'">
+    <input type="range" inline title="Overlay Opacity" name="overlayOpacity" min="0" max="1" step="0.1" value="0.5" condition="overlay && bg.type !== 'color'">
+  </mbr-parameters>
+
+  <div class="mbr-fallback-image disabled" mbr-if="bg.type === 'video'"></div>
+  <div class="mbr-overlay" mbr-if="overlay && bg.type !== 'color'" 
+       mbr-style="{'opacity': overlayOpacity, 'background-color': overlayColor}"></div>
+  <div mbr-class="{'container': !fullWidth, 'container-fluid': fullWidth}">
+    <div class="row mb-5 justify-content-center" mbr-if="showMainTitle || showMainSubtitle">
+      <div class="col-12 content-head">
+        <h3 class="mbr-section-title mbr-fonts-style align-center mb-0" 
+            mbr-theme-style="display-2" mbr-if="showMainTitle">
+          <b>Dynamic Features Section</b>
+        </h3>
+        <h5 class="mbr-section-subtitle mbr-fonts-style align-center mt-4" 
+            mbr-theme-style="display-7" mbr-if="showMainSubtitle">
+          A subtitle for dynamic content with responsive options.
+        </h5>
+      </div>
     </div>
-</body>
-</html>
+    <div class="row mbr-masonry" data-masonry='{"percentPosition": true}'>
+      <!-- Repeating Cards -->
+      <div class="item col-12 col-md-6 col-lg-{{columns}}">
+        <div class="item-wrapper">
+          <div class="card-box align-left">
+            <div class="iconfont-wrapper" mbr-if="showCardIcon">
+              <span class="mbr-iconfont mobi-mbri-idea mobi-mbri"></span>
+            </div>
+            <h5 class="card-title mbr-fonts-style" mbr-if="showCardTitle">
+              <b>Feature Title</b>
+            </h5>
+            <p class="card-text mbr-fonts-style" mbr-if="showCardText">
+              Brief description of the feature for the given card.
+            </p>
+            <div class="mbr-section-btn" mbr-if="showCardButtons">
+              <a href="#" class="btn btn-primary">Learn More</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Additional cards as needed -->
+    </div>
+  </div>
+</section>
