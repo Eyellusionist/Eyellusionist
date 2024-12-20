@@ -1,79 +1,66 @@
-<section data-bs-version="5.1" class="features22" group="Features" plugins="Masonry" 
-         data-bg-video="{{bg.type === 'video' && bg.value.url}}" 
-         mbr-class="{'mbr-parallax-background': bg.parallax}">
-  <mbr-parameters>
-    <header>Section Layout</header>
-    <input type="checkbox" title="Full Width" name="fullWidth">
-    <input type="range" inline title="Top Padding" name="paddingTop" min="0" max="10" step="1" value="6">
-    <input type="range" inline title="Bottom Padding" name="paddingBottom" min="0" max="10" step="1" value="6">
-    
-    <header>Content Visibility</header>
-    <input type="checkbox" title="Main Title" name="showMainTitle" checked>
-    <input type="checkbox" title="Subtitle" name="showMainSubtitle" checked>
-    
-    <header>Card Settings</header>
-    <input type="checkbox" title="Card Title" name="showCardTitle" checked>
-    <input type="checkbox" title="Card Text" name="showCardText" checked>
-    <input type="checkbox" title="Card Icon" name="showCardIcon" checked>
-    <input type="checkbox" title="Card Buttons" name="showCardButtons">
-    <input type="color" title="Icon Color" name="iconColor" value="#d70081" selected condition="showCardIcon">
-    <input type="color" title="Icon Background" name="iconBackground" value="#ffd7ef" selected condition="showCardIcon">
-    <select title="Columns" name="columns">
-      <option value="12">1</option>
-      <option value="6" selected>2</option>
-      <option value="4">3</option>
-      <option value="3">4</option>
-    </select>
-    <input type="color" title="Card Background" name="cardBackground" value="#ffffff" selected>
-    
-    <header>Background Configuration</header>
-    <fieldset type="background" name="bg" parallax>
-      <input type="image" title="Background Image" value="../_images/background1.jpg" parallax>
-      <input type="color" title="Background Color" value="#edefeb" selected>
-      <input type="video" title="Background Video" value="https://vimeo.com/428046504">
-    </fieldset>
-    <input type="checkbox" title="Overlay" name="overlay" condition="bg.type !== 'color'" checked>
-    <input type="color" title="Overlay Color" name="overlayColor" value="#ffffff" condition="overlay && bg.type !== 'color'">
-    <input type="range" inline title="Overlay Opacity" name="overlayOpacity" min="0" max="1" step="0.1" value="0.5" condition="overlay && bg.type !== 'color'">
-  </mbr-parameters>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Like Button</title>
+    <style>
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <button id="likeButton">Like 👍</button>
+        <span id="likeCount">0</span>
+    </div>
 
-  <div class="mbr-fallback-image disabled" mbr-if="bg.type === 'video'"></div>
-  <div class="mbr-overlay" mbr-if="overlay && bg.type !== 'color'" 
-       mbr-style="{'opacity': overlayOpacity, 'background-color': overlayColor}"></div>
-  <div mbr-class="{'container': !fullWidth, 'container-fluid': fullWidth}">
-    <div class="row mb-5 justify-content-center" mbr-if="showMainTitle || showMainSubtitle">
-      <div class="col-12 content-head">
-        <h3 class="mbr-section-title mbr-fonts-style align-center mb-0" 
-            mbr-theme-style="display-2" mbr-if="showMainTitle">
-          <b>Dynamic Features Section</b>
-        </h3>
-        <h5 class="mbr-section-subtitle mbr-fonts-style align-center mt-4" 
-            mbr-theme-style="display-7" mbr-if="showMainSubtitle">
-          A subtitle for dynamic content with responsive options.
-        </h5>
-      </div>
-    </div>
-    <div class="row mbr-masonry" data-masonry='{"percentPosition": true}'>
-      <!-- Repeating Cards -->
-      <div class="item col-12 col-md-6 col-lg-{{columns}}">
-        <div class="item-wrapper">
-          <div class="card-box align-left">
-            <div class="iconfont-wrapper" mbr-if="showCardIcon">
-              <span class="mbr-iconfont mobi-mbri-idea mobi-mbri"></span>
-            </div>
-            <h5 class="card-title mbr-fonts-style" mbr-if="showCardTitle">
-              <b>Feature Title</b>
-            </h5>
-            <p class="card-text mbr-fonts-style" mbr-if="showCardText">
-              Brief description of the feature for the given card.
-            </p>
-            <div class="mbr-section-btn" mbr-if="showCardButtons">
-              <a href="#" class="btn btn-primary">Learn More</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Additional cards as needed -->
-    </div>
-  </div>
-</section>
+    <script>
+        // Helper function to get a cookie value
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+        }
+
+        // Helper function to set a cookie
+        function setCookie(name, value, days) {
+            const date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            document.cookie = `${name}=${value}; path=/; expires=${date.toUTCString()}`;
+        }
+
+        const likeButton = document.getElementById('likeButton');
+        const likeCountDisplay = document.getElementById('likeCount');
+        let likeCount = 0;
+
+        // Load initial like state
+        const userLiked = getCookie('userLiked') === 'true';
+        if (userLiked) {
+            likeButton.textContent = 'Unlike 👎';
+            likeCount = 1;
+        }
+
+        likeCountDisplay.textContent = likeCount;
+
+        likeButton.addEventListener('click', () => {
+            const currentState = getCookie('userLiked') === 'true';
+            if (currentState) {
+                // Unlike
+                setCookie('userLiked', 'false', 7);
+                likeButton.textContent = 'Like 👍';
+                likeCount--;
+            } else {
+                // Like
+                setCookie('userLiked', 'true', 7);
+                likeButton.textContent = 'Unlike 👎';
+                likeCount++;
+            }
+            likeCountDisplay.textContent = likeCount;
+        });
+    </script>
+</body>
+</html>
