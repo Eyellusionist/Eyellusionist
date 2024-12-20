@@ -17,6 +17,7 @@
             gap: 20px;
             padding: 20px;
             align-items: start; /* Ensures items align independently */
+            grid-auto-flow: dense; /* Reorders items to fill gaps */
         }
         .article {
             background: white;
@@ -75,6 +76,14 @@
             <div class="content">
                 <h2>Article Title 4</h2>
                 <p>Morbi vel leo quis nisi aliquam interdum a at nulla. In id lectus ac sapien vehicula...</p>
+                <p>Another paragraph here to demonstrate height differences.</p>
+            </div>
+        </div>
+        <div class="article">
+            <img src="https://via.placeholder.com/400x200" alt="Placeholder Image">
+            <div class="content">
+                <h2>Article Title 5</h2>
+                <p>Short content example to show how dense packing works.</p>
             </div>
         </div>
     </div>
