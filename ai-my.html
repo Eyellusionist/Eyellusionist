@@ -1,0 +1,83 @@
+generateInterfaceHTML = {import:t2i-framework-plugin-v2}  // <-- This is a 'framework' plugin that itself imports the text-to-image plugin and generates the user interface using the settings below.
+ 
+ 
+// Feel free to edit the settings below and then save your own copy of this generator!
+// It looks more intimidating than it actually is - you can ignore almost everything here.
+// You'll probably just want to scroll down to the 'artStyle' list and edit those - it's pretty self-explanatory, just follow the format.
+
+
+$meta // This is used for browser tab title, social media sharing 'card', search engines, community generator listing, etc.  
+  title = AI Image Generator (free, no sign-up, unlimited)
+  description = A *fast*, unlimited, no login (ever!!!), AI image generator. Generate large *batches* of images all in just a few seconds. Generate AI art from text, completely free, online, no login or sign-up, no daily credit limits/restrictions/gimmicks, and it's fast. Other AI art generators often have annoying daily credit limits and require sign-up, or are slow - this one doesn't. Use this AI to generate high quality art, photos, cartoons, drawings, anime, thumbnails, pfps, and more. Create OCs, anime characters, AI villains, fanfic artwork, and pretty much anything else. It's an AI-based image generator that uses the Stable Diffusion text-to-image model. No watermark, no account needed, unlimited images. Type words, make pics.
+  image = https://user-uploads.perchance.org/file/4763f095ac55e4ac66ead5e8f4bbb016.jpeg 
+
+
+
+settings // This is the main settings list that is passed to `t2i-framework-plugin-v2` to generate the interface.
+  pageTitle = 🌌 AI Image Generator 🪄 // If you change this line, don't forget to also change this $meta.title above! The $meta.title is what's shown in search engines, social meta previews, etc.
+  introMessage = Add a description, then click <b>generate</b>.<br><br><span style="font-size:80%; color:grey; max-width:370px; display:inline-block;">This generator was made using the <a href="https://perchance.org/text-to-image-plugin" target="_blank" style="white-space:pre;">text-to-image-plugin</a>.<br>The brain button feature uses the <a href="https://perchance.org/ai-text-plugin" target="_blank" style="white-space:pre;">ai-text-plugin</a>.</span>
+  underImagesMessage = <div style="max-width:700px; margin:0 auto; padding:0 1rem; font-size:85%; opacity:0.7;"><div style="margin-top:0.5rem;">Also check out <a href="https://perchance.org/ai-rpg" target="_blank" style="font-weight:bold; color:#2bbb00;">AI Text Adventure</a> and <a href="https://perchance.org/ai-story-generator" target="_blank" style="font-weight:bold;">AI Story Generator</a>.</div></div>
+  numImages = [input.numImages] // This determines how many images get output when 'generate' is clicked. We let the user select that number - see 'numImages' under 'userInputs', below.
+  socialFeatures = button after 2 clicks // or 'button' or 'enabled' or 'disabled'
+  
+  imageButtons
+    personality = true
+    
+  // Note: the t2i-framework-plugin makes all user inputs from the `userInputs` list accessible by name as [input.theNameOfTheInput], as shown here:
+  imageOptions // <-- Options for the text-to-image plugin that generates the images. See all available options here:   https://perchance.org/text-to-image-plugin
+    saveTitle = ([input.artStyle.getName]) [input.description] // .getName is a built-in Perchance property that gets the name of a given list/sublist/node
+    prompt = [input.artStyle.prompt]
+    negativePrompt = [input.artStyle.negative]
+    resolution = [input.shape]
+  
+  userInputs // you can add more user inputs to this list, and then use them like [input.nameOfInput] in the `prompt`, `negativePrompt`, `artStyle.prompt`, etc.
+
+    scratchpad // Note: the 'remember' option storage is 'based on' this 'scratchpad' name, so if you change that name to something else like 'notepad', people will lose all their saved scratchpad text. But it's safe to change the 'label', below.
+      label = 🗒️ Scratchpad
+      tip = [t2i.defaultText.scratchpadTip] // this loads the default text, but you can replace "[t2i.defaultText.scratchpadTip]" with your own tip. Just change this line to "tip = You own cool tips."
+      type = paragraph // <-- large text box
+      remember = true // <-- the text that the user inputs will be remembered so it's still there even if they close/refresh the page
+      parseVariables = true // <-- allows people to write stuff like "ANIMAL = {dog|cat|frog}" in the scratchpad, and then use "[ANIMAL]" in their prompt to get a random one of those animals. Combined with the settings-sharing-link feature, this basically allows people to create their own shareable image generator.
+      width = min(750px, 100%) // <-- the minimum
+      height = 40vh  // <-- 40vh means 40% of the "view height" (i.e. page height)
+      takesUpFullRow = true
+      foldToggleState = hidden // or 'shown' if you want it to start shown, or delete this line if you don't want it to be show-able/hide-able
+      visible() =>
+        return Number(localStorage.generateClickCount) > 1; // so the scratchpad only shows up after they've clicked generate a couple of times (to reduce confusion/clutter for newbies)
+      examples
+        [t2i.defaultText.scratchpadPlaceholder]
+
+    description
+      label = 📝 Description 
+      tip = [t2i.defaultText.promptTip]
+      type = paragraph // <-- large text box
+      remember = true // <-- the text that the user inputs will be remembered so it's still there even if they close/refresh the page
+      width = min(750px, 100%)
+      takesUpFullRow = true
+      useVariables = true // See comment on the `parseVariables = true` line on the `scratchpad` user input, above. This line makes it so those variables can be used in this text box.
+      modifiers = [input.artStyle?.modifiers || null]
+      modifierUpdates = event:description.input, event:artStyle.change
+      enterKeyTriggersGeneration = true // <-- can still use shift+enter to create a new line
+      // we use artstyle-specific random prompts if available, otherwise fall back to randomDescriptions list:
+      examples = [input.artStyle?.randomPrompt || randomDescription] // <-- the placeholder examples that rotate in the text box
+      random = [input.artStyle?.randomPrompt || randomDescription] // <-- added to the text box when the 'random' button gets clicked
+
+    negative
+      label = 🚫 Anti-Description (optional)
+      tip = [t2i.defaultText.negativePromptTip]
+      type = text // <-- single-line text box
+      remember = true // <-- the text that the user inputs will be remembered so it's still there even if they close/refresh the page
+      useVariables = true // See comment on `useVariables` line on the `description` user input, above.
+      examples = things you 𝗱𝗼𝗻'𝘁 want in the image // 'examples' are shown as the placeholder text, so we hackily use that here to explain what 'anti-description' means
+
+    artStyle
+      label = 🎨 Art Style
+      type = select // <-- drop-down select menu
+      remember = true // <-- makes it so the selected option will be remembered even if the user refreshes/closes the page
+      options
+        meta:import
+          from = {import:t2i-styles} // <-- imports a bunch of 'default' styles. You can delete this line and the above line, or put these two lines at the end, below 'No style' if you want. You can also visit  https://perchance.org/t2i-styles#edit  in your browser, and then edit the styles to your liking, then save it, then swap  {import:t2i-styles}  at the start of the line you're reading right now with  {import:the-name-at-the-end-of-your-page-url}  - note that the "the-name-at-the-end-of-your-page-url" will be randomly generated letters numbers when you save it, but you can change that in settings menu if you want.
+          //tagWeights = pokemon:10, pixelArt:3    // Note: tagWeights are not used in this generator, but you can remove the "//" at the very beginning of this line (so it just starts with "tagWeights = ") and then specify some tags and their importance values - open this link in a new tab to see tags:   https://perchance.org/t2i-styles#edit   - look at the names on the "meta:tags" lines.
+        MTG Card // <-- example of a custom "Magic The Gathering" card style - just follow this format and add as many of them as you want to this 'options' list. Make sure to keep the indentation correctly aligned as you see here. Notice that you can use the other inputs within the prompt like [input.description]. You can create more inputs, and use them in the prompt too. Look at the `shape` input below for an example of a drop-down input (i.e. type=select). That one can be referenced via [input.shape] - not that you'd want to put that in the prompt, but you can copy that `shape` list and name it something else, and then reference it via [input.somethingElse]
+          prompt = magic the gathering card, [input.description], incredible magic the gathering artwork
+          negative = [input.negative], low-quality, deformed, blurry, bad art
